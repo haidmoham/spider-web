@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "release": "v0.1",
+  "spider_commit": "4766490910bf81ed8c216d52a1fe2be0c976e208",
+  "model": {
+    "path": "model/spider.xml",
+    "sha256": "a0571f004b3974ac2c02d26560c9daaa0dc354195f88232a13756ce9b38a3e5c"
+  },
+  "runtime": {
+    "package": "@mujoco/mujoco",
+    "version": "3.11.0",
+    "build": "single-threaded"
+  },
+  "renderer": {
+    "package": "three",
+    "version": "0.185.1",
+    "controls": "OrbitControls"
+  },
+  "source": "https://github.com/haidmoham/spider"
+}

@@ -1,0 +1,2 @@
+# Upstream runtime bundles are committed unchanged so the browser renderer can run without a build step.
+vendor/** -whitespace
