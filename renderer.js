@@ -359,6 +359,7 @@ function recordTelemetry(state) {
     time: data.time,
     position: data.qpos[0],
     height: data.qpos[2],
+    velocity: data.qvel[0],
     roll: state.roll,
     pitch: state.pitch,
   });
@@ -460,7 +461,7 @@ function drawChart(chartName, series, bounds, unit, label) {
 
   const latest = telemetryHistory.at(-1);
   const summary = series.map(({ key }) => `${key} ${latest[key].toFixed(3)} ${unit}`).join(', ');
-  chartCanvas.setAttribute('aria-label', `${label} over the current simulation run. Latest: ${summary}.`);
+  chartCanvas.setAttribute('aria-label', `${label} over the current simulation run. The horizontal axis is time. Latest: ${summary}.`);
 }
 
 function drawTelemetryCharts() {
@@ -511,13 +512,13 @@ function drawTelemetryGlyph(name, series, bounds, unit, label) {
     ? `${latest[series[0].key].toFixed(2)} ${unit}`
     : `r ${latest.roll.toFixed(2)} · p ${latest.pitch.toFixed(2)}`;
   glyphValues[name].textContent = latestValue;
-  glyphCanvas.setAttribute('aria-label', `${label} live trace over the current simulation run. Latest: ${latestValue}.`);
+  glyphCanvas.setAttribute('aria-label', `${label} live trace over the current simulation run. The horizontal axis is time. Latest: ${latestValue}.`);
 }
 
 function drawTelemetryGlyphs() {
   if (!telemetryHistory.length) return;
   drawTelemetryGlyph('position', [{ key: 'position', color: CHART_BLUE }], chartBounds(['position'], { includeZero: true, minimumSpan: 0.1 }), 'm', 'Torso x position');
-  drawTelemetryGlyph('height', [{ key: 'height', color: CHART_INK }], chartBounds(['height'], { minimum: 0, minimumSpan: 0.25 }), 'm', 'Torso height');
+  drawTelemetryGlyph('velocity', [{ key: 'velocity', color: CHART_INK }], chartBounds(['velocity'], { includeZero: true, minimumSpan: 0.1 }), 'm/s', 'Forward velocity');
   drawTelemetryGlyph('attitude', [{ key: 'roll', color: CHART_BLUE }, { key: 'pitch', color: CHART_RED }], chartBounds(['roll', 'pitch'], { includeZero: true, minimumSpan: 0.2 }), 'rad', 'Body attitude');
 }
 

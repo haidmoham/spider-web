@@ -19,6 +19,7 @@ body { margin: 0; min-width: 320px; background-color: var(--paper); background-i
 .spider-stage canvas { display: block; width: 100%; height: 100%; cursor: grab; }
 .spider-stage canvas:active { cursor: grabbing; }
 .spider-hud { position: absolute; z-index: 1; top: .75rem; right: .75rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .35rem; width: min(34%, 320px); pointer-events: none; }
+.spider-hud-title { grid-column: 1 / -1; margin: 0; color: var(--muted); font: 500 .56rem 'JetBrains Mono', monospace; letter-spacing: .05em; text-transform: uppercase; }
 .spider-glyph { min-width: 0; margin: 0; padding: .32rem .38rem .28rem; border: 1px solid rgba(47,105,173,.42); background: rgba(242,245,248,.9); }
 .spider-glyph figcaption { display: flex; justify-content: space-between; gap: .3rem; color: var(--muted); font: 500 .54rem 'JetBrains Mono', monospace; letter-spacing: .02em; line-height: 1.25; white-space: nowrap; }
 .spider-glyph output { color: var(--ink); font: inherit; font-variant-numeric: tabular-nums; }
