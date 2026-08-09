@@ -26,6 +26,7 @@ const TELEMETRY_SAMPLE_SECONDS = 0.05;
 const CHART_SURFACE = '#f2f5f8';
 const CHART_GRID = 'rgba(47,105,173,.16)';
 const CHART_AXIS = 'rgba(33,75,120,.38)';
+const GLYPH_BASELINE = 'rgba(33,75,120,.5)';
 const CHART_TEXT = '#4d6884';
 const CHART_BLUE = '#2f69ad';
 const CHART_INK = '#214b78';
@@ -483,7 +484,7 @@ function drawTelemetryGlyph(name, series, bounds, unit, label) {
   const x = (time) => inset + (time - startTime) / timeRange * (width - inset * 2);
   const y = (value) => inset + (1 - (value - bounds.lower) / valueRange) * (height - inset * 2);
 
-  context.strokeStyle = CHART_GRID;
+  context.strokeStyle = GLYPH_BASELINE;
   context.lineWidth = 1;
   context.beginPath();
   context.moveTo(inset, height / 2);
