@@ -15,9 +15,14 @@ body { margin: 0; min-width: 320px; background-color: var(--paper); background-i
 .spider-release-picker select { min-width: 128px; padding: .38rem .5rem; border: 1px solid var(--blue); border-radius: 4px; background: #f2f5f8; color: var(--ink); font: 500 .72rem 'JetBrains Mono', monospace; }
 .artifact-status { margin: 0; color: var(--blue); font: 600 .7rem 'JetBrains Mono', monospace; letter-spacing: .04em; text-align: right; }
 .artifact-intro, .data-provenance { margin: .45rem 0 0; color: var(--muted); font-size: .84rem; }
-.spider-stage { height: clamp(330px, 56vw, 560px); margin-top: 1.3rem; overflow: hidden; border: 1px solid var(--blue); border-radius: 8px; background-color: #e8ecf1; background-image: linear-gradient(rgba(77,127,189,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(77,127,189,.1) 1px, transparent 1px); background-size: 28px 28px; touch-action: none; }
+.spider-stage { position: relative; height: clamp(330px, 56vw, 560px); margin-top: 1.3rem; overflow: hidden; border: 1px solid var(--blue); border-radius: 8px; background-color: #e8ecf1; background-image: linear-gradient(rgba(77,127,189,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(77,127,189,.1) 1px, transparent 1px); background-size: 28px 28px; touch-action: none; }
 .spider-stage canvas { display: block; width: 100%; height: 100%; cursor: grab; }
 .spider-stage canvas:active { cursor: grabbing; }
+.spider-hud { position: absolute; z-index: 1; top: .75rem; right: .75rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .35rem; width: min(34%, 320px); pointer-events: none; }
+.spider-glyph { min-width: 0; margin: 0; padding: .32rem .38rem .28rem; border: 1px solid rgba(47,105,173,.42); background: rgba(242,245,248,.9); }
+.spider-glyph figcaption { display: flex; justify-content: space-between; gap: .3rem; color: var(--muted); font: 500 .54rem 'JetBrains Mono', monospace; letter-spacing: .02em; line-height: 1.25; white-space: nowrap; }
+.spider-glyph output { color: var(--ink); font: inherit; font-variant-numeric: tabular-nums; }
+.spider-hud canvas { display: block; width: 100%; height: 34px; margin-top: .2rem; cursor: default; background: transparent; }
 .spider-controls { display: grid; grid-template-columns: repeat(4, max-content); gap: .7rem .9rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--line); }
 .play-toggle { min-width: 0; padding: .42rem .7rem; border: 1px solid var(--blue); background: transparent; color: var(--ink); cursor: pointer; font: .68rem 'JetBrains Mono', monospace; }
 .play-toggle:hover, .play-toggle:focus-visible { border-color: var(--ink); outline: none; }
@@ -40,3 +45,4 @@ body { margin: 0; min-width: 320px; background-color: var(--paper); background-i
 .spider-chart canvas { display: block; width: 100%; height: 170px; margin-top: .5rem; }
 .data-provenance a { color: var(--blue); }
 @media (max-width: 760px) { .app-shell { padding: 3.5rem 1.25rem; }.artifact-head, .spider-telemetry-head { display: block; }.spider-artifact-meta { justify-content: start; margin-top: .8rem; }.artifact-status { margin-top: .5rem; text-align: left; }.spider-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }.spider-readout, .spider-chart-grid { grid-template-columns: 1fr; }.spider-telemetry-head > p { margin-top: .5rem; text-align: left; } }
+@media (max-width: 560px) { .spider-hud { right: .5rem; width: calc(100% - 1rem); }.spider-glyph figcaption { font-size: .48rem; } }

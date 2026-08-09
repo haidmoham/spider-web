@@ -11,6 +11,8 @@ const cameraResetButton = root.querySelector('[data-camera-reset]');
 const cameraFollowButton = root.querySelector('[data-camera-follow]');
 const status = root.querySelector('[data-status]');
 const chartCanvases = Object.fromEntries([...root.querySelectorAll('[data-chart]')].map((chart) => [chart.dataset.chart, chart]));
+const glyphCanvases = Object.fromEntries([...root.querySelectorAll('[data-glyph]')].map((glyph) => [glyph.dataset.glyph, glyph]));
+const glyphValues = Object.fromEntries([...root.querySelectorAll('[data-glyph-value]')].map((value) => [value.dataset.glyphValue, value]));
 const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const FOOT_NAMES = ['front_left', 'front_right', 'middle_left', 'middle_right', 'rear_left', 'rear_right'];
@@ -364,6 +366,7 @@ function recordTelemetry(state) {
   const firstVisibleTime = data.time - TELEMETRY_WINDOW_SECONDS;
   while (telemetryHistory.length > 1 && telemetryHistory[0].time < firstVisibleTime) telemetryHistory.shift();
   drawTelemetryCharts();
+  drawTelemetryGlyphs();
 }
 
 function chartBounds(keys, { includeZero = false, minimum, minimumSpan = 0.1 } = {}) {
@@ -465,6 +468,57 @@ function drawTelemetryCharts() {
   drawChart('position', [{ key: 'position', color: CHART_BLUE }], chartBounds(['position'], { includeZero: true, minimumSpan: 0.1 }), 'm', 'Torso x position');
   drawChart('height', [{ key: 'height', color: CHART_INK }], chartBounds(['height'], { minimum: 0, minimumSpan: 0.25 }), 'm', 'Torso height');
   drawChart('attitude', [{ key: 'roll', color: CHART_BLUE }, { key: 'pitch', color: CHART_RED }], chartBounds(['roll', 'pitch'], { includeZero: true, minimumSpan: 0.2 }), 'rad', 'Body roll and pitch');
+}
+
+function drawTelemetryGlyph(name, series, bounds, unit, label) {
+  const glyphCanvas = glyphCanvases[name];
+  if (!glyphCanvas || !telemetryHistory.length) return;
+  const { context, width, height } = prepareChart(glyphCanvas);
+  const inset = 3;
+  const startTime = telemetryHistory[0].time;
+  const endTime = Math.max(telemetryHistory.at(-1).time, startTime + 1);
+  const timeRange = endTime - startTime;
+  const valueRange = Math.max(bounds.upper - bounds.lower, 0.0001);
+  const x = (time) => inset + (time - startTime) / timeRange * (width - inset * 2);
+  const y = (value) => inset + (1 - (value - bounds.lower) / valueRange) * (height - inset * 2);
+
+  context.strokeStyle = CHART_GRID;
+  context.lineWidth = 1;
+  context.beginPath();
+  context.moveTo(inset, height / 2);
+  context.lineTo(width - inset, height / 2);
+  context.stroke();
+
+  const latest = telemetryHistory.at(-1);
+  series.forEach(({ key, color }) => {
+    context.strokeStyle = color;
+    context.lineWidth = 1.6;
+    context.lineCap = 'round';
+    context.lineJoin = 'round';
+    context.beginPath();
+    telemetryHistory.forEach((sample, index) => {
+      if (index === 0) context.moveTo(x(sample.time), y(sample[key]));
+      else context.lineTo(x(sample.time), y(sample[key]));
+    });
+    context.stroke();
+    context.fillStyle = color;
+    context.beginPath();
+    context.arc(x(latest.time), y(latest[key]), 1.8, 0, Math.PI * 2);
+    context.fill();
+  });
+
+  const latestValue = series.length === 1
+    ? `${latest[series[0].key].toFixed(2)} ${unit}`
+    : `r ${latest.roll.toFixed(2)} · p ${latest.pitch.toFixed(2)}`;
+  glyphValues[name].textContent = latestValue;
+  glyphCanvas.setAttribute('aria-label', `${label} live trace over the current simulation run. Latest: ${latestValue}.`);
+}
+
+function drawTelemetryGlyphs() {
+  if (!telemetryHistory.length) return;
+  drawTelemetryGlyph('position', [{ key: 'position', color: CHART_BLUE }], chartBounds(['position'], { includeZero: true, minimumSpan: 0.1 }), 'm', 'Torso x position');
+  drawTelemetryGlyph('height', [{ key: 'height', color: CHART_INK }], chartBounds(['height'], { minimum: 0, minimumSpan: 0.25 }), 'm', 'Torso height');
+  drawTelemetryGlyph('attitude', [{ key: 'roll', color: CHART_BLUE }, { key: 'pitch', color: CHART_RED }], chartBounds(['roll', 'pitch'], { includeZero: true, minimumSpan: 0.2 }), 'rad', 'Body attitude');
 }
 
 function render() {
