@@ -26,5 +26,16 @@
     </section>
   </main>
   <script type="module" src="renderer.js"></script>
+  <script>
+    const c1nRelabel = () => {
+      const follow = document.querySelector('[data-camera-follow]');
+      if (follow && follow.textContent.includes('Spider')) follow.textContent = follow.textContent.replaceAll('Spider', 'C-1N');
+      document.querySelectorAll('.explorer-error').forEach((node) => {
+        if (node.textContent.includes('Spider')) node.textContent = node.textContent.replaceAll('Spider', 'C-1N');
+      });
+    };
+    new MutationObserver(c1nRelabel).observe(document.body, { subtree: true, childList: true, characterData: true });
+    c1nRelabel();
+  </script>
 </body>
 </html>
