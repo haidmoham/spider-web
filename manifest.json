@@ -1,6 +1,7 @@
 {
   "schema_version": 2,
   "robot": "C-1N",
+  "release": "C-1N // 01 · SHUFFLE",
   "checkpoint": "C-1N // 01 · SHUFFLE",
   "legacy_release": "v0.1",
   "canonical_repository": "https://github.com/haidmoham/spider",
