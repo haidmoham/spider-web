@@ -4,7 +4,7 @@
   "release": "C-1N // 01 · SHUFFLE",
   "checkpoint": "C-1N // 01 · SHUFFLE",
   "canonical_repository": "https://github.com/haidmoham/spider",
-  "source_commit": "4766490910bf81ed8c216d52a1fe2be0c976e208",
+  "spider_commit": "4766490910bf81ed8c216d52a1fe2be0c976e208",
   "model": {
     "path": "model/spider.xml",
     "sha256": "a0571f004b3974ac2c02d26560c9daaa0dc354195f88232a13756ce9b38a3e5c"
