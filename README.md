@@ -20,14 +20,16 @@ C-1N // NN · CODENAME
 
 The number preserves chronology. The codename records the capability or understanding gained at that boundary.
 
-Reserved future names:
+Historical and reserved names:
 
 ```text
+C-1N // 00 · POSE    motor-assisted static-pose baseline; not a demonstrated standing capability
 C-1N // 02 · FRAME   task-space instrumentation after bench issue #6 closes
-C-1N // 03 · STRIDE  first materially better walk
+C-1N // 03 · STAND   first support-aware stable stance
+C-1N // 04 · STRIDE  first materially better walk
 ```
 
-These are not completed releases yet.
+`POSE` is historical. The other names are not completed releases yet.
 
 ## Scope
 
