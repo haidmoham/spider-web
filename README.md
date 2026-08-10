@@ -1,18 +1,42 @@
-# spider-web
+# C-1N browser artifact
 
-`spider-web` is the standalone WebGL renderer for the Spider MuJoCo robot.
-It runs the pinned v0.1 MJCF snapshot and a browser port of the canonical gait
-controller with first-party MuJoCo WebAssembly.
+This repository is the standalone WebGL renderer for **C-1N**, the longitudinal six-legged MuJoCo robot formerly referred to generically as Spider.
+
+It runs the pinned current checkpoint and a browser port of the canonical gait controller with first-party MuJoCo WebAssembly.
+
+## Current checkpoint
+
+```text
+C-1N // 01 · SHUFFLE
+```
+
+This checkpoint preserves the coordinated tripod gait failure. It is intentionally not presented as sustained walking.
+
+Future public checkpoints use the grammar:
+
+```text
+C-1N // NN · CODENAME
+```
+
+The number preserves chronology. The codename records the capability or understanding gained at that boundary.
+
+Reserved future names:
+
+```text
+C-1N // 02 · FRAME   task-space instrumentation after bench issue #6 closes
+C-1N // 03 · STRIDE  first materially better walk
+```
+
+These are not completed releases yet.
 
 ## Scope
 
 The canonical robot model and controller live in
-[haidmoham/spider](https://github.com/haidmoham/spider). This repository owns
-the browser rendering layer: orbit, pan, zoom, follow camera, and live runtime
-telemetry. It does not claim that Spider has sustained walking.
+[haidmoham/spider](https://github.com/haidmoham/spider). The repository slug is legacy; the robot identity is C-1N.
 
-The renderer preserves the model's visual definitions: near-black torso and
-legs, red feet, and an extended blue-gray paper floor.
+This repository owns the browser rendering layer: orbit, pan, zoom, follow camera, checkpoint selection, and live runtime telemetry. It does not claim that C-1N has sustained walking.
+
+The renderer preserves the model's visual definitions: near-black torso and legs, red feet, and an extended blue-gray paper floor.
 
 ## Run locally
 
@@ -26,6 +50,4 @@ Then open <http://127.0.0.1:4173>.
 
 ## Provenance
 
-`manifest.json` records the Spider commit, model digest, and runtime versions.
-`model/spider.xml` is the pinned v0.1 snapshot from the canonical repository.
-See `THIRD_PARTY_NOTICES.md` for runtime licenses.
+`manifest.json` records the C-1N checkpoint, legacy release identifier, canonical robot commit, model digest, and runtime versions. `model/spider.xml` remains the pinned implementation filename for compatibility. See `THIRD_PARTY_NOTICES.md` for runtime licenses.
