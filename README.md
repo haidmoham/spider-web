@@ -23,12 +23,12 @@ The number preserves chronology. The codename records the capability or understo
 Historical and reserved names:
 
 ```text
-C-1N // 00 · POSE    motor-assisted static-pose baseline; not a demonstrated standing capability
+C-1N // 00 · SPAWN   motor-assisted static-pose baseline; not a demonstrated standing capability
 C-1N // 02 · STAND   first support-aware stable stance
 C-1N // 03 · STRIDE  first materially better walk
 ```
 
-`POSE` is historical. The other names are not completed releases yet. Task-space instrumentation may integrate between checkpoints without creating a `FRAME` release.
+`SPAWN` is historical. The other names are not completed releases yet. Task-space instrumentation may integrate between checkpoints without creating a `FRAME` release.
 
 ## Scope
 
