@@ -2,6 +2,12 @@
 
 A standalone WebGL renderer for the C-1N MuJoCo simulation using first-party MuJoCo WebAssembly.
 
+## Preserved checkpoint and current artifact
+
+This repository preserves **C-1N // 01 · SHUFFLE** at the model revision in `manifest.json`. It is a historical browser experiment, not the current STAND artifact or evidence of sustained walking.
+
+Open the [current C-1N browser artifact](https://c1n.mhaider.dev/). Its maintained browser source lives in [`haidmoham.github.io/spider`](https://github.com/haidmoham/haidmoham.github.io/tree/main/spider); the canonical Python simulation remains in [`spider`](https://github.com/haidmoham/spider). The browser implementation is separate from the Python controller, so the pinned model alone does not establish controller equivalence.
+
 ## Scope
 
 - browser rendering for the robot model;
