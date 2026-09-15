@@ -1,0 +1,191 @@
+<mujoco model="spider">
+  <compiler angle="degree" autolimits="true" eulerseq="zyx" />
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="implicitfast" />
+
+  
+  <asset>
+    <texture name="twilight" type="skybox" builtin="gradient" rgb1="0.055 0.05 0.08" rgb2="0.16 0.145 0.19" width="512" height="3072" />
+    <material name="ceramic" rgba="0.76 0.70 0.61 1" specular="0.12" shininess="0.25" />
+    <material name="upper_link" rgba="0.64 0.66 0.70 1" />
+    <material name="graphite" rgba="0.095 0.10 0.17 1" specular="0.36" shininess="0.45" />
+    <material name="vermilion" rgba="0.82 0.36 0.27 1" />
+    <material name="eye_white" rgba="0.98 0.94 0.84 1" />
+    <material name="marking" rgba="0.58 0.81 0.86 1" emission="0.35" />
+  <material name="candidate_life_glow" rgba="0.95 0.015 0.025 1" emission="0.7" specular="0.15" /><material name="candidate_metal" rgba="0.18 0.19 0.21 1" specular="0.75" shininess="0.7" /><mesh name="candidate_armor_fin" scale="0.11 0.035 0.07" vertex="0 -1 0 0 1 0 -1 0 0 -0.8 0 1.3" face="0 2 1 0 1 3 1 2 3 2 0 3" /></asset>
+
+  <visual>
+    <headlight ambient="0.20 0.20 0.25" diffuse="0.28 0.28 0.32" specular="0.15 0.15 0.15" />
+    <rgba haze="0.09 0.10 0.15 1" />
+    <quality shadowsize="4096" />
+  </visual>
+
+  <default>
+    <joint damping="0.5" armature="0.01" />
+    <geom contype="1" conaffinity="1" friction="1 0.5 0.5" density="500" rgba="0.01 0.01 0.015 1" />
+  </default>
+
+  <worldbody>
+    <light name="main" pos="1 -1 2.5" dir="-0.4 0.4 -1" directional="false" diffuse="0.60 0.55 0.49" specular="0.35 0.30 0.25" />
+    <light name="rim" pos="-1 1 1.5" dir="0.5 -0.5 -1" directional="true" diffuse="0.30 0.37 0.55" specular="0.18 0.22 0.32" castshadow="false" />
+    <geom name="ground" type="plane" size="12 12 0.1" rgba="0.16 0.145 0.19 1" />
+
+    <body name="torso" pos="0 0 0.38">
+      <freejoint name="root" />
+      <geom name="torso_geom" type="box" size="0.22 0.16 0.07" material="ceramic" rgba="0.76 0.70 0.61 0" />
+      <site name="torso_center" pos="0 0 0" size="0.02" rgba="1 0 0 1" />
+
+      
+      <site name="cowl_visual" type="ellipsoid" pos="-0.018 0 0.074" size="0.185 0.14 0.025" material="graphite" rgba="0.095 0.10 0.17 0" group="2" />
+      
+      <site name="shell_seam_visual" type="box" pos="0 0 0.042" size="0.221 0.161 0.003" material="graphite" group="2" />
+      <site name="left_socket_visual" type="sphere" pos="0.220 0.065 0.012" size="0.054" material="graphite" group="2" />
+      <site name="right_socket_visual" type="sphere" pos="0.220 -0.065 0.012" size="0.054" material="graphite" group="2" />
+      <site name="rear_badge_visual" type="box" pos="-0.223 0 0.003" size="0.002 0.025 0.013" material="candidate_life_glow" group="2" rgba="0.95 0.015 0.025 1" />
+      <site name="left_eye_visual" type="sphere" pos="0.235 0.065 0.012" size="0.050" material="eye_white" rgba="0.98 0.94 0.84 1" group="2" />
+      <site name="right_eye_visual" type="sphere" pos="0.235 -0.065 0.012" size="0.050" material="eye_white" rgba="0.98 0.94 0.84 1" group="2" />
+      <site name="left_pupil_visual" type="sphere" pos="0.279 0.054 0.022" size="0.019" material="graphite" rgba="0.025 0.027 0.045 1" group="2" />
+      <site name="right_pupil_visual" type="sphere" pos="0.279 -0.076 -0.002" size="0.019" material="graphite" rgba="0.025 0.027 0.045 1" group="2" />
+      <site name="spine_visual" type="capsule" fromto="-0.13 0 0.098 0.075 0 0.098" size="0.004" material="candidate_life_glow" rgba="0.95 0.015 0.025 1" group="2" />
+
+      <body name="front_left" pos="0.14 0.11 0" euler="38 0 0">
+        <joint name="front_left_coxa" type="hinge" axis="0 0 1" range="-45 45" />
+        <joint name="front_left_hip" type="hinge" axis="0 1 0" range="-45 100" />
+        <geom name="front_left_thigh" type="capsule" fromto="0 0 0 0.26 0 0" size="0.035" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+        <site name="front_left_joint_visual" type="sphere" size="0.052" material="graphite" rgba="0.095 0.10 0.17 1" group="2" />
+        <body name="front_left_shin" pos="0.26 0 0">
+          <joint name="front_left_knee" type="hinge" axis="0 1 0" range="-80 140" />
+          
+          <site name="front_left_knee_visual" type="sphere" size="0.039" material="graphite" group="2" />
+          <site name="front_left_outer_hub_visual" type="cylinder" pos="0 0.034 0" euler="0 0 90" size="0.022 0.006" material="candidate_metal" group="2" rgba="0.23 0.24 0.26 1" />
+          <site name="front_left_inner_hub_visual" type="cylinder" pos="0 -0.034 0" euler="0 0 90" size="0.022 0.006" material="candidate_metal" group="2" rgba="0.23 0.24 0.26 1" />
+          <site name="front_left_shin_inlay_visual" type="capsule" fromto="0.055 0 0.029 0.175 0 0.029" size="0.004" material="upper_link" group="2" />
+          <geom name="front_left_shin_geom" type="capsule" fromto="0 0 0 0.24 0 0" size="0.03" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+          <geom name="front_left_foot" type="sphere" pos="0.24 0 0" size="0.045" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+          <site name="front_left_contact_site" pos="0.24 0 0" size="0.02" />
+        <site name="front_left_candidate_shin_shroud" type="capsule" group="2" fromto="0.012 0 0.018 0.222 0 0.018" size="0.039" rgba="0.18 0.19 0.21 1" material="candidate_metal" /><site name="front_left_candidate_distal_point" type="ellipsoid" group="2" pos="0.225 0 0.018" size="0.062 0.033 0.022" rgba="0.025 0.028 0.045 1" material="candidate_metal" /></body>
+      <site name="front_left_candidate_thigh_shroud" type="capsule" group="2" fromto="0.015 0 0.018 0.245 0 0.018" size="0.046" rgba="0.18 0.19 0.21 1" material="candidate_metal" /><site name="front_left_candidate_thigh_point" type="ellipsoid" group="2" pos="0.255 0 0.018" size="0.070 0.040 0.025" rgba="0.16 0.18 0.23 1" material="candidate_metal" /></body>
+
+      <body name="front_right" pos="0.14 -0.11 0" euler="-38 0 0">
+        <joint name="front_right_coxa" type="hinge" axis="0 0 1" range="-45 45" />
+        <joint name="front_right_hip" type="hinge" axis="0 1 0" range="-45 100" />
+        <geom name="front_right_thigh" type="capsule" fromto="0 0 0 0.26 0 0" size="0.035" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+        <site name="front_right_joint_visual" type="sphere" size="0.052" material="graphite" rgba="0.095 0.10 0.17 1" group="2" />
+        <body name="front_right_shin" pos="0.26 0 0">
+          <joint name="front_right_knee" type="hinge" axis="0 1 0" range="-80 140" />
+          
+          <site name="front_right_knee_visual" type="sphere" size="0.039" material="graphite" group="2" />
+          <site name="front_right_outer_hub_visual" type="cylinder" pos="0 0.034 0" euler="0 0 90" size="0.022 0.006" material="candidate_metal" group="2" rgba="0.23 0.24 0.26 1" />
+          <site name="front_right_inner_hub_visual" type="cylinder" pos="0 -0.034 0" euler="0 0 90" size="0.022 0.006" material="candidate_metal" group="2" rgba="0.23 0.24 0.26 1" />
+          <site name="front_right_shin_inlay_visual" type="capsule" fromto="0.055 0 0.029 0.175 0 0.029" size="0.004" material="upper_link" group="2" />
+          <geom name="front_right_shin_geom" type="capsule" fromto="0 0 0 0.24 0 0" size="0.03" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+          <geom name="front_right_foot" type="sphere" pos="0.24 0 0" size="0.045" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+          <site name="front_right_contact_site" pos="0.24 0 0" size="0.02" />
+        <site name="front_right_candidate_shin_shroud" type="capsule" group="2" fromto="0.012 0 0.018 0.222 0 0.018" size="0.039" rgba="0.18 0.19 0.21 1" material="candidate_metal" /><site name="front_right_candidate_distal_point" type="ellipsoid" group="2" pos="0.225 0 0.018" size="0.062 0.033 0.022" rgba="0.025 0.028 0.045 1" material="candidate_metal" /></body>
+      <site name="front_right_candidate_thigh_shroud" type="capsule" group="2" fromto="0.015 0 0.018 0.245 0 0.018" size="0.046" rgba="0.18 0.19 0.21 1" material="candidate_metal" /><site name="front_right_candidate_thigh_point" type="ellipsoid" group="2" pos="0.255 0 0.018" size="0.070 0.040 0.025" rgba="0.16 0.18 0.23 1" material="candidate_metal" /></body>
+
+      <body name="middle_left" pos="0 0.16 0" euler="90 0 0">
+        <joint name="middle_left_coxa" type="hinge" axis="0 0 1" range="-45 45" />
+        <joint name="middle_left_hip" type="hinge" axis="0 1 0" range="-45 100" />
+        <geom name="middle_left_thigh" type="capsule" fromto="0 0 0 0.26 0 0" size="0.035" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+        <site name="middle_left_joint_visual" type="sphere" size="0.052" material="graphite" rgba="0.095 0.10 0.17 1" group="2" />
+        <body name="middle_left_shin" pos="0.26 0 0">
+          <joint name="middle_left_knee" type="hinge" axis="0 1 0" range="-80 140" />
+          
+          <site name="middle_left_knee_visual" type="sphere" size="0.039" material="graphite" group="2" />
+          <site name="middle_left_outer_hub_visual" type="cylinder" pos="0 0.034 0" euler="0 0 90" size="0.022 0.006" material="candidate_metal" group="2" rgba="0.23 0.24 0.26 1" />
+          <site name="middle_left_inner_hub_visual" type="cylinder" pos="0 -0.034 0" euler="0 0 90" size="0.022 0.006" material="candidate_metal" group="2" rgba="0.23 0.24 0.26 1" />
+          <site name="middle_left_shin_inlay_visual" type="capsule" fromto="0.055 0 0.029 0.175 0 0.029" size="0.004" material="upper_link" group="2" />
+          <geom name="middle_left_shin_geom" type="capsule" fromto="0 0 0 0.24 0 0" size="0.03" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+          <geom name="middle_left_foot" type="sphere" pos="0.24 0 0" size="0.045" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+          <site name="middle_left_contact_site" pos="0.24 0 0" size="0.02" />
+        <site name="middle_left_candidate_shin_shroud" type="capsule" group="2" fromto="0.012 0 0.018 0.222 0 0.018" size="0.039" rgba="0.18 0.19 0.21 1" material="candidate_metal" /><site name="middle_left_candidate_distal_point" type="ellipsoid" group="2" pos="0.225 0 0.018" size="0.062 0.033 0.022" rgba="0.025 0.028 0.045 1" material="candidate_metal" /></body>
+      <site name="middle_left_candidate_thigh_shroud" type="capsule" group="2" fromto="0.015 0 0.018 0.245 0 0.018" size="0.046" rgba="0.18 0.19 0.21 1" material="candidate_metal" /><site name="middle_left_candidate_thigh_point" type="ellipsoid" group="2" pos="0.255 0 0.018" size="0.070 0.040 0.025" rgba="0.16 0.18 0.23 1" material="candidate_metal" /></body>
+
+      <body name="middle_right" pos="0 -0.16 0" euler="-90 0 0">
+        <joint name="middle_right_coxa" type="hinge" axis="0 0 1" range="-45 45" />
+        <joint name="middle_right_hip" type="hinge" axis="0 1 0" range="-45 100" />
+        <geom name="middle_right_thigh" type="capsule" fromto="0 0 0 0.26 0 0" size="0.035" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+        <site name="middle_right_joint_visual" type="sphere" size="0.052" material="graphite" rgba="0.095 0.10 0.17 1" group="2" />
+        <body name="middle_right_shin" pos="0.26 0 0">
+          <joint name="middle_right_knee" type="hinge" axis="0 1 0" range="-80 140" />
+          
+          <site name="middle_right_knee_visual" type="sphere" size="0.039" material="graphite" group="2" />
+          <site name="middle_right_outer_hub_visual" type="cylinder" pos="0 0.034 0" euler="0 0 90" size="0.022 0.006" material="candidate_metal" group="2" rgba="0.23 0.24 0.26 1" />
+          <site name="middle_right_inner_hub_visual" type="cylinder" pos="0 -0.034 0" euler="0 0 90" size="0.022 0.006" material="candidate_metal" group="2" rgba="0.23 0.24 0.26 1" />
+          <site name="middle_right_shin_inlay_visual" type="capsule" fromto="0.055 0 0.029 0.175 0 0.029" size="0.004" material="upper_link" group="2" />
+          <geom name="middle_right_shin_geom" type="capsule" fromto="0 0 0 0.24 0 0" size="0.03" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+          <geom name="middle_right_foot" type="sphere" pos="0.24 0 0" size="0.045" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+          <site name="middle_right_contact_site" pos="0.24 0 0" size="0.02" />
+        <site name="middle_right_candidate_shin_shroud" type="capsule" group="2" fromto="0.012 0 0.018 0.222 0 0.018" size="0.039" rgba="0.18 0.19 0.21 1" material="candidate_metal" /><site name="middle_right_candidate_distal_point" type="ellipsoid" group="2" pos="0.225 0 0.018" size="0.062 0.033 0.022" rgba="0.025 0.028 0.045 1" material="candidate_metal" /></body>
+      <site name="middle_right_candidate_thigh_shroud" type="capsule" group="2" fromto="0.015 0 0.018 0.245 0 0.018" size="0.046" rgba="0.18 0.19 0.21 1" material="candidate_metal" /><site name="middle_right_candidate_thigh_point" type="ellipsoid" group="2" pos="0.255 0 0.018" size="0.070 0.040 0.025" rgba="0.16 0.18 0.23 1" material="candidate_metal" /></body>
+
+      <body name="rear_left" pos="-0.14 0.11 0" euler="142 0 0">
+        <joint name="rear_left_coxa" type="hinge" axis="0 0 1" range="-45 45" />
+        <joint name="rear_left_hip" type="hinge" axis="0 1 0" range="-45 100" />
+        <geom name="rear_left_thigh" type="capsule" fromto="0 0 0 0.26 0 0" size="0.035" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+        <site name="rear_left_joint_visual" type="sphere" size="0.052" material="graphite" rgba="0.095 0.10 0.17 1" group="2" />
+        <body name="rear_left_shin" pos="0.26 0 0">
+          <joint name="rear_left_knee" type="hinge" axis="0 1 0" range="-80 140" />
+          
+          <site name="rear_left_knee_visual" type="sphere" size="0.039" material="graphite" group="2" />
+          <site name="rear_left_outer_hub_visual" type="cylinder" pos="0 0.034 0" euler="0 0 90" size="0.022 0.006" material="candidate_metal" group="2" rgba="0.23 0.24 0.26 1" />
+          <site name="rear_left_inner_hub_visual" type="cylinder" pos="0 -0.034 0" euler="0 0 90" size="0.022 0.006" material="candidate_metal" group="2" rgba="0.23 0.24 0.26 1" />
+          <site name="rear_left_shin_inlay_visual" type="capsule" fromto="0.055 0 0.029 0.175 0 0.029" size="0.004" material="upper_link" group="2" />
+          <geom name="rear_left_shin_geom" type="capsule" fromto="0 0 0 0.24 0 0" size="0.03" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+          <geom name="rear_left_foot" type="sphere" pos="0.24 0 0" size="0.045" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+          <site name="rear_left_contact_site" pos="0.24 0 0" size="0.02" />
+        <site name="rear_left_candidate_shin_shroud" type="capsule" group="2" fromto="0.012 0 0.018 0.222 0 0.018" size="0.039" rgba="0.18 0.19 0.21 1" material="candidate_metal" /><site name="rear_left_candidate_distal_point" type="ellipsoid" group="2" pos="0.225 0 0.018" size="0.062 0.033 0.022" rgba="0.025 0.028 0.045 1" material="candidate_metal" /></body>
+      <site name="rear_left_candidate_thigh_shroud" type="capsule" group="2" fromto="0.015 0 0.018 0.245 0 0.018" size="0.046" rgba="0.18 0.19 0.21 1" material="candidate_metal" /><site name="rear_left_candidate_thigh_point" type="ellipsoid" group="2" pos="0.255 0 0.018" size="0.070 0.040 0.025" rgba="0.16 0.18 0.23 1" material="candidate_metal" /></body>
+
+      <body name="rear_right" pos="-0.14 -0.11 0" euler="-142 0 0">
+        <joint name="rear_right_coxa" type="hinge" axis="0 0 1" range="-45 45" />
+        <joint name="rear_right_hip" type="hinge" axis="0 1 0" range="-45 100" />
+        <geom name="rear_right_thigh" type="capsule" fromto="0 0 0 0.26 0 0" size="0.035" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+        <site name="rear_right_joint_visual" type="sphere" size="0.052" material="graphite" rgba="0.095 0.10 0.17 1" group="2" />
+        <body name="rear_right_shin" pos="0.26 0 0">
+          <joint name="rear_right_knee" type="hinge" axis="0 1 0" range="-80 140" />
+          
+          <site name="rear_right_knee_visual" type="sphere" size="0.039" material="graphite" group="2" />
+          <site name="rear_right_outer_hub_visual" type="cylinder" pos="0 0.034 0" euler="0 0 90" size="0.022 0.006" material="candidate_metal" group="2" rgba="0.23 0.24 0.26 1" />
+          <site name="rear_right_inner_hub_visual" type="cylinder" pos="0 -0.034 0" euler="0 0 90" size="0.022 0.006" material="candidate_metal" group="2" rgba="0.23 0.24 0.26 1" />
+          <site name="rear_right_shin_inlay_visual" type="capsule" fromto="0.055 0 0.029 0.175 0 0.029" size="0.004" material="upper_link" group="2" />
+          <geom name="rear_right_shin_geom" type="capsule" fromto="0 0 0 0.24 0 0" size="0.03" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+          <geom name="rear_right_foot" type="sphere" pos="0.24 0 0" size="0.045" material="candidate_metal" rgba="0.11 0.12 0.14 1" />
+          <site name="rear_right_contact_site" pos="0.24 0 0" size="0.02" />
+        <site name="rear_right_candidate_shin_shroud" type="capsule" group="2" fromto="0.012 0 0.018 0.222 0 0.018" size="0.039" rgba="0.18 0.19 0.21 1" material="candidate_metal" /><site name="rear_right_candidate_distal_point" type="ellipsoid" group="2" pos="0.225 0 0.018" size="0.062 0.033 0.022" rgba="0.025 0.028 0.045 1" material="candidate_metal" /></body>
+      <site name="rear_right_candidate_thigh_shroud" type="capsule" group="2" fromto="0.015 0 0.018 0.245 0 0.018" size="0.046" rgba="0.18 0.19 0.21 1" material="candidate_metal" /><site name="rear_right_candidate_thigh_point" type="ellipsoid" group="2" pos="0.255 0 0.018" size="0.070 0.040 0.025" rgba="0.16 0.18 0.23 1" material="candidate_metal" /></body>
+    <site name="candidate_abdomen_visual" type="ellipsoid" group="2" pos="-0.105 0 0.075" size="0.245 0.145 0.075" rgba="0.18 0.19 0.21 1" material="candidate_metal" /><site name="candidate_rear_taper_visual" type="ellipsoid" group="2" pos="-0.285 0 0.072" size="0.135 0.095 0.052" rgba="0.15 0.17 0.22 1" material="candidate_metal" /><site name="candidate_dorsal_plate_0" type="box" group="2" pos="0.1 0 0.142" size="0.050 0.126 0.010" euler="0 12 0" rgba="0.28 0.30 0.35 1" material="candidate_metal" /><site name="candidate_dorsal_plate_1" type="box" group="2" pos="0.025 0 0.142" size="0.050 0.126 0.010" euler="0 7 0" rgba="0.28 0.30 0.35 1" material="candidate_metal" /><site name="candidate_dorsal_plate_2" type="box" group="2" pos="-0.055 0 0.142" size="0.050 0.126 0.010" euler="0 2 0" rgba="0.28 0.30 0.35 1" material="candidate_metal" /><site name="candidate_dorsal_plate_3" type="box" group="2" pos="-0.135 0 0.142" size="0.050 0.126 0.010" euler="0 -3 0" rgba="0.28 0.30 0.35 1" material="candidate_metal" /><site name="candidate_dorsal_plate_4" type="box" group="2" pos="-0.215 0 0.142" size="0.050 0.126 0.010" euler="0 -8 0" rgba="0.28 0.30 0.35 1" material="candidate_metal" /><site name="candidate_dorsal_spike_0" type="capsule" group="2" fromto="-0.02 0 0.105 -0.05500000000000001 0 0.18" size="0.010" rgba="0.035 0.038 0.055 1" material="candidate_metal" /><site name="candidate_dorsal_spike_1" type="capsule" group="2" fromto="-0.12 0 0.1 -0.155 0 0.19" size="0.010" rgba="0.035 0.038 0.055 1" material="candidate_metal" /><site name="candidate_dorsal_spike_2" type="capsule" group="2" fromto="-0.22 0 0.1 -0.255 0 0.17" size="0.010" rgba="0.035 0.038 0.055 1" material="candidate_metal" /><site name="candidate_left_ruby_visual" type="ellipsoid" group="2" pos="-0.10 0.137 0.085" size="0.016 0.008 0.010" material="candidate_life_glow" rgba="0.95 0.015 0.025 1" /><site name="candidate_left_breathing_seam" type="capsule" group="2" fromto="-0.23 0.10960000000000002 0.123 0.09 0.10960000000000002 0.123" size="0.0035" material="candidate_life_glow" rgba="0.95 0.015 0.025 1" /><site name="candidate_right_ruby_visual" type="ellipsoid" group="2" pos="-0.10 -0.137 0.085" size="0.016 0.008 0.010" material="candidate_life_glow" rgba="0.95 0.015 0.025 1" /><site name="candidate_right_breathing_seam" type="capsule" group="2" fromto="-0.23 -0.10960000000000002 0.123 0.09 -0.10960000000000002 0.123" size="0.0035" material="candidate_life_glow" rgba="0.95 0.015 0.025 1" /><site name="candidate_heartbeat_core" type="ellipsoid" group="2" pos="-0.12 0 0.159" size="0.027 0.017 0.008" material="candidate_life_glow" rgba="0.95 0.015 0.025 1" /><light name="candidate_underlight" pos="0 0 -0.075" dir="0 0 -1" diffuse="0.10 0.0015 0.0025" specular="0 0 0" ambient="0 0 0" castshadow="false" cutoff="85" /><site name="googly_enabled" pos="0 0 0" size="0.001" rgba="0 0 0 0" group="5" /><geom name="candidate_fin_0" type="mesh" mesh="candidate_armor_fin" pos="0.06 0 0.14" mass="0" contype="0" conaffinity="0" group="2" rgba="0.24 0.27 0.32 1" /><geom name="candidate_fin_1" type="mesh" mesh="candidate_armor_fin" pos="-0.04 0 0.14" mass="0" contype="0" conaffinity="0" group="2" rgba="0.24 0.27 0.32 1" /><geom name="candidate_fin_2" type="mesh" mesh="candidate_armor_fin" pos="-0.14 0 0.14" mass="0" contype="0" conaffinity="0" group="2" rgba="0.24 0.27 0.32 1" /><geom name="candidate_fin_3" type="mesh" mesh="candidate_armor_fin" pos="-0.24 0 0.14" mass="0" contype="0" conaffinity="0" group="2" rgba="0.24 0.27 0.32 1" /></body>
+  </worldbody>
+
+  <actuator>
+    <position name="front_left_coxa_motor" joint="front_left_coxa" kp="300" ctrlrange="-0.8 0.8" />
+    <position name="front_left_hip_motor" joint="front_left_hip" kp="300" ctrlrange="-0.7854 1.7453" />
+    <position name="front_left_knee_motor" joint="front_left_knee" kp="300" ctrlrange="-1.3963 2.4435" />
+    <position name="front_right_coxa_motor" joint="front_right_coxa" kp="300" ctrlrange="-0.8 0.8" />
+    <position name="front_right_hip_motor" joint="front_right_hip" kp="300" ctrlrange="-0.7854 1.7453" />
+    <position name="front_right_knee_motor" joint="front_right_knee" kp="300" ctrlrange="-1.3963 2.4435" />
+    <position name="middle_left_coxa_motor" joint="middle_left_coxa" kp="300" ctrlrange="-0.8 0.8" />
+    <position name="middle_left_hip_motor" joint="middle_left_hip" kp="300" ctrlrange="-0.7854 1.7453" />
+    <position name="middle_left_knee_motor" joint="middle_left_knee" kp="300" ctrlrange="-1.3963 2.4435" />
+    <position name="middle_right_coxa_motor" joint="middle_right_coxa" kp="300" ctrlrange="-0.8 0.8" />
+    <position name="middle_right_hip_motor" joint="middle_right_hip" kp="300" ctrlrange="-0.7854 1.7453" />
+    <position name="middle_right_knee_motor" joint="middle_right_knee" kp="300" ctrlrange="-1.3963 2.4435" />
+    <position name="rear_left_coxa_motor" joint="rear_left_coxa" kp="300" ctrlrange="-0.8 0.8" />
+    <position name="rear_left_hip_motor" joint="rear_left_hip" kp="300" ctrlrange="-0.7854 1.7453" />
+    <position name="rear_left_knee_motor" joint="rear_left_knee" kp="300" ctrlrange="-1.3963 2.4435" />
+    <position name="rear_right_coxa_motor" joint="rear_right_coxa" kp="300" ctrlrange="-0.8 0.8" />
+    <position name="rear_right_hip_motor" joint="rear_right_hip" kp="300" ctrlrange="-0.7854 1.7453" />
+    <position name="rear_right_knee_motor" joint="rear_right_knee" kp="300" ctrlrange="-1.3963 2.4435" />
+  </actuator>
+
+  <sensor>
+    <framequat name="torso_orientation" objtype="body" objname="torso" />
+    <framelinvel name="torso_velocity" objtype="body" objname="torso" />
+    <touch name="front_left_contact" site="front_left_contact_site" />
+    <touch name="front_right_contact" site="front_right_contact_site" />
+    <touch name="middle_left_contact" site="middle_left_contact_site" />
+    <touch name="middle_right_contact" site="middle_right_contact_site" />
+    <touch name="rear_left_contact" site="rear_left_contact_site" />
+    <touch name="rear_right_contact" site="rear_right_contact_site" />
+  </sensor>
+</mujoco>
